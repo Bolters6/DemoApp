@@ -1,0 +1,148 @@
+openapi: "3.0.0"
+info:
+  title: "demo plugins app"
+  version: "1.0.0"
+  description: "programma di prova per implementare differenti plugins"
+paths:
+  /register:
+    post:
+      summary: "registra un utente"
+      description: ""
+      operationId: "addUtente"
+      requestBody:
+        description: "object Utente per la aggiunta"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtenteDTO'
+      responses:
+        '201':
+          description: "utente aggiunto con esito"
+        '405':
+          description: "input invalido"
+  /get/{id}:
+    parameters:
+      - name: "id"
+        in: "path"
+        description: "ID del utente"
+        required: true
+        schema:
+          type: long
+    get:
+      summary: "Prende utente con la id"
+      description: "Ritorna un singolo utente"
+      operationId: "getUtente"
+      responses:
+        "200":
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UtenteDTO"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Utente not found"
+  /addcosatouser:
+    post:
+      summary: "aggiunge una cosa al utente"
+      operationId: "addCosaToUser"
+      parameters:
+        - in: query
+          name: "utenteid"
+          description: "id del utente"
+          required: true
+          schema:
+            type: long
+        - in: query
+          name: "cosaid"
+          description: "id della cosa"
+          required: true
+          schema:
+            type: long
+      responses:
+        "200":
+          description: "everything added ok"
+  /create:
+    post:
+      summary: creare un oggetto cosa
+      operationId: addCosa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CosaDTO'
+      responses:
+        "201":
+          description: cosa creata con esito
+  /getcosa/{id}:
+    get:
+      summary: presa di una cosa
+      operationId: getCosa
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: long
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CosaDTO'
+components:
+  schemas:
+    UtenteDTO:
+      type: "object"
+      required:
+        - "name"
+        - "lastname"
+        - "username"
+        - "password"
+        - "email"
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+          example: "mario"
+        lastname:
+          type: "string"
+          example: "pontillo"
+        username:
+          type: "string"
+          example: "bolters"
+        password:
+          type: "string"
+          example: "1234"
+        email:
+          type: "string"
+          example: "mario@gmail.com"
+        cosaDTO:
+          type: "object"
+        completeName:
+          type: "string"
+        utilityTarget:
+          type: "string"
+    CosaDTO:
+      type: object
+      required:
+        - cosaname
+        - utility
+        - materiale
+      properties:
+        idcosa:
+          type: integer
+        cosaname:
+          type: string
+        utility:
+          type: string
+        materiale:
+          type: string
+
+
+
