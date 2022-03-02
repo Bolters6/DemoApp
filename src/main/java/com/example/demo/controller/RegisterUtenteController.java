@@ -22,4 +22,5 @@ public class RegisterUtenteController implements RegisterApiDelegate {
         utenteRepo.save(utenteMapper.utenteDTOToUtente(utenteDTO));
         return ResponseEntity.ok().build();
     }
+
 }
