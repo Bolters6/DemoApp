@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name ="utenti")
@@ -22,13 +23,13 @@ public class Utente implements Serializable {
         private String name;
         @Column(name = "lastname")
         private String lastname;
-        @Column(name = "username")
+        @Column(name = "username", unique = true)
         private String username;
         @Column(name = "password")
         private String password;
         @Column(name = "email")
         private String email;
-        @OneToOne(fetch = FetchType.EAGER)
-        @JoinColumn(name = "cosa_id")
-        private Cosa cosa;
+        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Cosa.class)
+        private List<Cosa> cosa;
+
 }
