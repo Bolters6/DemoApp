@@ -1,8 +1,10 @@
-package com.example.demo.controller;
+package com.example.demo.service;
 
+import com.example.demo.mapper.CosaMapper;
 import com.example.demo.mapper.UtenteMapper;
 import com.example.demo.model.Utente;
 import com.example.demo.model.UtenteDTO;
+import com.example.demo.repo.CosaRepo;
 import com.example.demo.repo.UtenteRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,17 +18,21 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class GetUtenteControllerTest {
+class UtenteServiceTest {
 
     @Mock
     private UtenteRepo utenteRepo;
     @Mock
     private UtenteMapper utenteMapper;
-    private GetUtenteController getUtenteController;
+    @Mock
+    private CosaRepo cosaRepo;
+    @Mock
+    private CosaMapper cosaMapper;
+    private UtenteService utenteService;
 
     @BeforeEach
     void setUp() {
-        getUtenteController = new GetUtenteController(utenteMapper, utenteRepo);
+        utenteService = new UtenteService(utenteRepo, utenteMapper, cosaRepo, cosaMapper);
     }
 
     @Test
@@ -37,7 +43,7 @@ class GetUtenteControllerTest {
                 "Chukiao", "hola123", "chukiao@gmail.com", null));
 
         //when
-        UtenteDTO expected = getUtenteController.getUtente(id).getBody();
+        UtenteDTO expected = utenteService.getUtente(id).getBody();
         //then
         assertThat(expected).isEqualTo(utenteMapper.utenteToUtenteDTO(utenteRepo.findByIdutente(id)));
     }
@@ -46,7 +52,7 @@ class GetUtenteControllerTest {
         //given
         Long id = 1L;
         //when
-        getUtenteController.getUtente(id);
+        utenteService.getUtente(id);
         //then
         ArgumentCaptor<Long> idargumentCaptor = ArgumentCaptor.forClass(Long.class);
         verify(utenteMapper).utenteToUtenteDTO(utenteRepo.findByIdutente(idargumentCaptor.capture()));

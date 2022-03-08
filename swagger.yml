@@ -3,11 +3,36 @@ info:
   title: "demo plugins app"
   version: "1.0.0"
   description: "programma di prova per implementare differenti plugins"
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Utente
+  - name: Cosa
 paths:
-  /register:
+  /utente:
+    get:
+      tags:
+        - "Utente"
+      description: prende un utente
+      operationId: getUtente
+      parameters:
+        - in: query
+          name: id
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UtenteDTO'
     post:
+      tags:
+        - "Utente"
       summary: "registra un utente"
-      description: ""
+      description: "registra un utente nel database"
       operationId: "addUtente"
       requestBody:
         description: "object Utente per la aggiunta"
@@ -21,31 +46,40 @@ paths:
           description: "utente aggiunto con esito"
         '405':
           description: "input invalido"
-  /get/{id}:
-    parameters:
-      - name: "id"
-        in: "path"
-        description: "ID del utente"
+    put:
+      tags:
+        - "Utente"
+      summary: "aggiorna un utente"
+      description: "aggiorna un utente nel database"
+      operationId: "updateUtente"
+      requestBody:
+        description: "object Utente per la aggiunta"
         required: true
-        schema:
-          type: long
-    get:
-      summary: "Prende utente con la id"
-      description: "Ritorna un singolo utente"
-      operationId: "getUtente"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UtenteDTO'
       responses:
-        "200":
-          description: "successful operation"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UtenteDTO"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Utente not found"
+        '201':
+          description: "utente aggiunto con esito"
+        '405':
+          description: "input invalido"
+    delete:
+      summary: rimuovi un utente
+      operationId: deleteUtente
+      parameters:
+        - in: query
+          name: utenteid
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: OK
   /addcosatouser:
     post:
+      tags:
+        - "Utente"
       summary: "aggiunge una cosa al utente"
       operationId: "addCosaToUser"
       parameters:
@@ -64,8 +98,10 @@ paths:
       responses:
         "200":
           description: "everything added ok"
-  /create:
+  /cosa:
     post:
+      tags:
+        - "Cosa"
       summary: creare un oggetto cosa
       operationId: addCosa
       requestBody:
@@ -77,7 +113,6 @@ paths:
       responses:
         "201":
           description: cosa creata con esito
-  /getcosa/{id}:
     get:
       summary: presa di una cosa
       operationId: getCosa
@@ -94,6 +129,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CosaDTO'
+    delete:
+      tags:
+        - "Cosa"
+      summary: rimuovi una cosa
+      operationId: deleteCosa
+      parameters:
+        - in: query
+          name: cosaid
+          required: true
+          schema:
+            type: long
+      responses:
+        200:
+          description: OK
 components:
   schemas:
     UtenteDTO:
@@ -123,7 +172,9 @@ components:
           type: "string"
           example: "mario@gmail.com"
         cosaDTO:
-          type: "object"
+          type: array
+          items:
+            $ref: '#/components/schemas/CosaDTO'
         completeName:
           type: "string"
         utilityTarget:
