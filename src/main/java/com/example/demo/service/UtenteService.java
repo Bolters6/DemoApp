@@ -1,4 +1,5 @@
 package com.example.demo.service;
+
 import com.example.demo.api.UtenteApiDelegate;
 import com.example.demo.mapper.CosaMapper;
 import com.example.demo.mapper.UtenteMapper;
@@ -22,16 +23,18 @@ public class UtenteService implements UtenteApiDelegate {
 
     private final UtenteRepo utenteRepo;
     private final UtenteMapper utenteMapper;
-    private final CosaRepo cosaRepo;
-    private final CosaMapper cosaMapper;
+    /*private final CosaRepo cosaRepo;
+    private final CosaMapper cosaMapper;*/
 
     @Override
     public ResponseEntity<Void> addUtente(UtenteDTO utenteDTO) {
-        List<Cosa> cose = new ArrayList<>();
-        utenteDTO.getCosaDTO().forEach(cosa -> {cosaRepo.save(cosaMapper.cosaDTOToCosa(cosa));
-                                                cose.add(cosaMapper.cosaDTOToCosa(cosa));});
+       /* List<Cosa> cose = new ArrayList<>();
+        utenteDTO.getCosaDTO().forEach(cosa -> {
+            cose.add(cosaMapper.cosaDTOToCosa(cosa));
+        });*/
         Utente utente = utenteMapper.utenteDTOToUtente(utenteDTO);
-        utente.setCosa(cose);
+        //System.out.println(utente.toString());
+        //utente.setCosa(cose);
         utenteRepo.save(utente);
         return ResponseEntity.ok().build();
     }

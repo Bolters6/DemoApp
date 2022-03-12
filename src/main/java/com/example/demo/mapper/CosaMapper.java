@@ -14,14 +14,12 @@ public interface CosaMapper {
 
     public CosaMapper INSTANCE = Mappers.getMapper(CosaMapper.class);
 
-    @BeanMapping(ignoreByDefault = true)
     @Mappings({
             @Mapping(target = "name", source = "cosaname"),
             @Mapping(target = "materiale", source = "materiale"),
             @Mapping(target = "utility",  source = "utility")
     })
     Cosa cosaDTOToCosa(CosaDTO cosaDTO);
-    @BeanMapping(ignoreByDefault = true)
     @Mappings({@Mapping(target = "cosaname", source = "name"),
                @Mapping(target = "materiale", source = "materiale") })
     CosaDTO cosaToCosaDTO(Cosa cosa);

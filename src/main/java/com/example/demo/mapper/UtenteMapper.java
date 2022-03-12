@@ -15,15 +15,17 @@ public interface UtenteMapper {
 
     public UtenteMapper INSTANCE = Mappers.getMapper(UtenteMapper.class);
 
-    @BeanMapping(ignoreByDefault = true)
+ //COLOCANDO EL @Mappings solo mapeare lo que este dentro de el , no hara nada automatico
+    //MAPEA AUTOMATICO AUNQUE SEAN DE OBJETOS DIFERENTES, MIENTRAS EL CONTENIDO DE CADA OBJETO SEAN VARIABLES NORMALES
+    // Y SE LLAMEN IGUAL EN AMBOS LADOS.
     @Mappings({@Mapping(target = "name", source = "name"),
                @Mapping(target = "lastname", source = "lastname"),
                @Mapping(target = "username", source = "username"),
                @Mapping(target = "password", source = "password"),
-               @Mapping(target = "email", source = "email")})
+               @Mapping(target = "email", source = "email"),
+               @Mapping(target = "cosa", source = "cosaDTO")})
     Utente utenteDTOToUtente(UtenteDTO utenteDTO);
 
-    @BeanMapping(ignoreByDefault = true)
     @Mappings({@Mapping(target = "name", source = "name"),
             @Mapping(target = "lastname", source = "lastname"),
             @Mapping(target = "completeName", expression = "java(concatName(utente.getName(), utente.getLastname()))"),

@@ -29,7 +29,7 @@ public class Utente implements Serializable {
         private String password;
         @Column(name = "email")
         private String email;
-        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Cosa.class)
+        @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
         private List<Cosa> cosa;
 
 }
