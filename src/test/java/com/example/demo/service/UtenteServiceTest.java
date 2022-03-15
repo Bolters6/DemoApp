@@ -1,10 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.mapper.CosaMapper;
 import com.example.demo.mapper.UtenteMapper;
 import com.example.demo.model.Utente;
 import com.example.demo.model.UtenteDTO;
-import com.example.demo.repo.CosaRepo;
 import com.example.demo.repo.UtenteRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,15 +22,11 @@ class UtenteServiceTest {
     private UtenteRepo utenteRepo;
     @Mock
     private UtenteMapper utenteMapper;
-    @Mock
-    private CosaRepo cosaRepo;
-    @Mock
-    private CosaMapper cosaMapper;
     private UtenteService utenteService;
 
     @BeforeEach
     void setUp() {
-        utenteService = new UtenteService(utenteRepo, utenteMapper, cosaRepo, cosaMapper);
+        utenteService = new UtenteService(utenteRepo, utenteMapper);
     }
 
     @Test
